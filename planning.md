@@ -126,7 +126,6 @@ Shows detailed information about a recipe when clicked.
         **Nutritional Information**: (Optional) displays nutritional details.
     **Actions**: "Save" button if the recipe is not already saved, and "Close" button or icon to exit the modal.
 
-### Key Development Steps
 
 ### Entity Relationship Diagram (ERD)
 
@@ -141,6 +140,49 @@ For this project, we’ll use a lightweight data solution such as Airtable or lo
 
 3. **User_Saved_Recipes** (If using user accounts)
    - *Fields*: `user_id`, `recipe_id` (Composite Key)
+
+   # Entity Relationship Diagram (ERD)
+
+User (Optional for Future Versions)
+----------------------------------------
+|  user_id       | Primary Key         |
+|  username      | String              |
+|  email         | String              |
+|  password_hash | String              |
+----------------------------------------
+
+                   1
+                   |
+                   |
+                   |
+                   |
+                   N
+                   
+Recipe
+----------------------------------------
+|  recipe_id      | Primary Key         |
+|  title          | String              |
+|  image_url      | String              |
+|  summary        | Text                |
+|  ingredients    | Text Array          |
+|  instructions   | Text                |
+|  nutritional_info | JSON              |
+----------------------------------------
+
+                   M
+                   |
+                   |
+                   |
+                   |
+                   N
+                   
+User_Saved_Recipes
+----------------------------------------
+|  user_id        | Foreign Key         |
+|  recipe_id      | Foreign Key         |
+----------------------------------------
+
+
 
 This ERD keeps the app’s data requirements minimal. Currently, the only data storage is for saved recipes. Adding a `User` table in future versions would enable a more personalized experience with account-specific saved recipes.
 
@@ -181,29 +223,3 @@ Develop features incrementally, focusing on one story at a time.
 - **Next Steps**: Advanced filters, user accounts, and social sharing.
 
 ---
-
-### Development Checklist
-
-#### Frontend Application
-- [x] **React Component Structure**: Modular components like `Search`, `RecipeCard`, and `SavedRecipes`.
-- [x] **Styling**: MUI with custom CSS for Flex/Grid layout.
-- [x] **AJAX Requests**: Use Axios or Fetch for AJAX requests.
-- [x] **State Management**: Use `useState` and `useEffect`.
-- [x] **Error Handling**: Display user-friendly error messages.
-
-#### UI/UX Requirements
-- [x] **Visual Theme**: Consistent color palette and layout.
-- [x] **Navigation**: Clear, accessible navigation bar.
-- [x] **Accessibility**: High contrast and alt text for images.
-- [x] **Responsive Layout**: Test on multiple screen sizes.
-- [x] **Animated UI**: Animate recipe cards, loading spinners, and save confirmations.
-
-#### Backend Application
-- [x] **Express Routes**: Build routes for API calls.
-- [x] **Environment Variables**: Use `dotenv` to secure API keys.
-- [x] **Testing**: Add error handling and logging.
-
-#### Deployment
-- [x] **Frontend**: Deploy on Vercel or Netlify.
-- [x] **Backend**: Deploy on Heroku or DigitalOcean.
-
