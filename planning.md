@@ -126,6 +126,7 @@ Shows detailed information about a recipe when clicked.
         **Nutritional Information**: (Optional) displays nutritional details.
     **Actions**: "Save" button if the recipe is not already saved, and "Close" button or icon to exit the modal.
 
+### Key Development Steps
 
 ### Entity Relationship Diagram (ERD)
 
@@ -206,4 +207,3 @@ Develop features incrementally, focusing on one story at a time.
 - [x] **Frontend**: Deploy on Vercel or Netlify.
 - [x] **Backend**: Deploy on Heroku or DigitalOcean.
 
-This plan should ensure a polished, user-friendly app with a smooth development flow, solid UX, and efficient deployment. Let me know if you need more specifics!
