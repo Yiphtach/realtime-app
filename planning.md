@@ -1,280 +1,209 @@
-_<Project Overview>_
+# Realtime-App: Recipe Finder
 
-<Project Name>: Realtime Staffing and Recruiting Dashboard
+**Description**: Realtime-App is a recipe discovery application that allows users to search for recipes based on ingredients they have at home. It prioritizes a simple, visually appealing design with real-time data updates, making it quick and easy to find recipes tailored to what users already have.
 
-<Description>: Realtime is a staffing and recruiting dashboard that provides ,hiring managers with real-time data insights on candidate pipelines and staffing needs. Built with a React front end and an Express back end, the app integrates with third-party APIs to provide dynamic updates and detailed candidate information, helping hiring managers make quick and informed decisions.
+---
 
-<MVP User Stories>
-1. User Authentication (OAuth2)
+## Project Outline
 
-    User Story: As a hiring manager, I want to log in securely using a trusted third-party provider, so I can access the application without creating a new account.
+### Core Stack and Tools
+- **Frontend Framework**: React
+- **Styling**: CSS Flexbox and/or CSS Grid
+- **CSS/Component Library**: MUI (or Tailwind, Bulma, or Chakra)
+- **Data Source**: 1-2 third-party APIs (e.g., Spoonacular for recipes)
+- **Backend for Securing Keys**: Node.js/Express with endpoints for accessing APIs that require keys
+- **Deployment**: Frontend on Vercel or Netlify, Backend on Heroku or DigitalOcean
 
-2. Real-Time Data Insights
+---
 
-    User Story: As a hiring manager, I want to view real-time updates on candidate progress and open positions so that I can make staffing decisions quickly.
+### Wireframes
+Creating wireframes early in the design process helps ensure a clear, intuitive layout.
 
-3. Candidate Profile Access
+1. **Homepage**:
+   - **Top Section**: A search bar where users can enter ingredients.
+   - **Search Results**: Displays a list of recipe cards with each card showing the recipe image, title, and a brief description.
+   - **Save Button**: A button on each recipe card allowing users to save recipes for later.
 
-    User Story: As a hiring manager, I want to view detailed profiles of each candidate, including current status and history, so that I can evaluate them effectively.
+   # Homepage
+Allows users to search for recipes based on ingredients.
 
-4. Staffing Alerts
+-----------------------------------------
+|              Realtime-App             |
+|   [Logo]      [Saved Recipes]         |
+-----------------------------------------
 
-    User Story: As a hiring manager, I want to receive alerts about critical staffing shortages so that I can prioritize urgent hiring needs.
+[Enter Ingredients Here]  [Search Button]
 
-5. Dynamic Data Visualization
+-----------------------------------------
+|             Recipe Results            |
+|                                       |
+|  +-------------------+   +-----------+|
+|  |   Recipe Image    |   | Recipe    | |
+|  |    Recipe Title   |   | Image     | |
+|  | Brief Description |   | Recipe    | |
+|  |     [Save]        |   | Title     | |
+|  +-------------------+   | Brief     | |
+|                           | Description |
+|                           |   [Save]    |
+-----------------------------------------
 
-    User Story: As a hiring manager, I want to see visual representations of data, like graphs or charts, so that I can quickly interpret candidate pipeline and staffing metrics.
-
-
-<Wireframes>
-These are simple wireframes for the main pages of the Realtime app.
-
-1. Login Page:
-
-    Purpose: Provides secure access to the app using OAuth2.
-    Elements: 
-        App Logo/Header: Positioned at the top center.
-        
-        Login Button: A large OAuth2 login button (e.g., "Login with Google").
-        
-        Footer Links: Optional links for "Help" and "Privacy Policy."
-
-+-----------------------------------------+
-|                  Logo                   |
-|-----------------------------------------|
-|                                         |
-|           Login with Google             |
-|                                         |
-|-----------------------------------------|
-|          Help | Privacy Policy          |
-+-----------------------------------------+
-
-
-2. Dashboard:
-
-    Purpose: Main view displaying key metrics and real-time candidate pipeline data.
-    Elements: 
-        Top Nav Bar: Links to "Dashboard," "Candidates," "Alerts," and "Settings."
-        
-        Real-Time Metrics Panel: Displays critical metrics like the number of   candidates in each pipeline stage.
-        
-        Alerts Section: Highlights urgent staffing alerts (e.g., "3 Open Positions Need Immediate Attention").
-        
-        Recent Activity: Shows recent candidate activities (e.g., new applications, status updates).
-        
-        Sidebar: Links to "Candidates," "Positions," and "Reports."
-
-+-------------------------------------------+
-|          Dashboard Nav Bar                |
-| Dashboard | Candidates | Alerts | Settings|
-|-------------------------------------------|
-|       Real-Time Metrics Panel             |
-|-------------------------------------------|
-|      Alerts      |   Recent Activity      |
-|-------------------------------------------|
-|    Candidate Pipeline (charts/graphs)     |
-|-------------------------------------------|
-|   Sidebar Links (Candidates, Positions)   |
-+-------------------------------------------+
+**Components**:
+    - **Header**: Contains app name or logo on the left, and a "Saved Recipes" link on the right.
+    - **Search Section**: Input field for entering ingredients with a search button.
+    - **Recipe Results**: A grid of recipe cards displaying each recipe’s image, title, brief description, and a "Save" button for each card.
 
 
-3. Candidate Profile Page:
-
-    Purpose: A detailed view of individual candidates to assess their status and progress.
-    Elements: 
-        Header: Displays candidate name, position applied for, and current status.
-        
-        Progress Timeline: Shows a visual timeline of application stages (e.g., applied, interviewed, offer).
-        
-        Notes Section: Space for adding notes about the candidate.
-        
-        Action Buttons: Options for "Edit Profile," "Add Note," and "Change Status."
-
-+-----------------------------------------+
-|      Candidate Name | Position | Status |
-|-----------------------------------------|
-|            Progress Timeline            |
-|  [ Applied ] -> [ Interviewed ] -> [Offer]|
-|-----------------------------------------|
-|             Notes Section               |
-| - "Strong analytical skills noted."     |
-| - "Interview scheduled for 12/15."      |
-|-----------------------------------------|
-| Edit Profile | Add Note | Change Status |
-+-----------------------------------------+
+2. **Saved Recipes Page**:
+   - **Saved List**: Displays saved recipes in a card format similar to the search results, with the option to remove items.
+   - **Navigation**: Button or link to return to the homepage for more searches.
 
 
-4. Settings/Notifications Page:
+   # Saved Recipes Page
+Displays recipes saved by the user.
 
-    Purpose: Allows customization of alert preferences and account settings.
-    Elements: 
-        Profile Settings: Shows user information (name, email) with an edit option.
-        
-        Notification Preferences: Toggle options for specific alerts (e.g., "Enable email alerts for staffing").
-        
-        Save Changes Button: Clear call to action to save any changes.
+-----------------------------------------
+|              Realtime-App             |
+|   [Logo]      [Search Recipes]        |
+-----------------------------------------
 
-+-----------------------------------------+
-|              Profile Settings           |
-| Name: Jamie Hiring                      |
-| Email: jamie@company.com                |
-| [ Edit Profile ]                        |
-|-----------------------------------------|
-|         Notification Preferences        |
-| [ ] Enable email alerts for staffing    |
-| [ ] Enable SMS alerts for urgent alerts |
-|-----------------------------------------|
-|               Save Changes              |
-+-----------------------------------------+
+-----------------------------------------
+|           Saved Recipes List          |
+|                                       |
+|  +-------------------+   +-----------+|
+|  |   Recipe Image    |   | Recipe    | |
+|  |    Recipe Title   |   | Image     | |
+|  |     [Remove]      |   | Recipe    | |
+|  +-------------------+   | Title     | |
+|                           | [Remove]   |
+-----------------------------------------
 
-
-
-<ERD: Realtime Staffing and Recruiting App>
-The diagram shows the entities and their relationships, detailing the primary keys (PK) and foreign keys (FK) for each table.
+**Components**:
+    **Header**: Similar to the homepage header with app name/logo and a link to "Search Recipes."
+    **Saved Recipes List**: A grid layout similar to the homepage, showing saved recipe cards with each card including the recipe image, title, and a "Remove" button.
 
 
-+----------------+          +----------------+          +----------------+
-|     User       |          |   Candidate    |          |    Position    |
-+----------------+          +----------------+          +----------------+
-| user_id (PK)   |  1     * | candidate_id (PK) |      * | position_id (PK) |
-| name           |----------| name              |----------| title             |
-| email          |          | status            |          | department        |
-| role           |          | position_applied  |          | status            |
-| created_at     |          | last_updated      |          | created_at        |
-+----------------+          +----------------+          +----------------+
+3. **Recipe Details Modal** (Optional):
+   - **Details**: On clicking a recipe card, a modal opens with full recipe details like ingredients, instructions, and nutritional information.
+   - **Save Button**: Allows users to save the recipe if they haven’t already.
 
-          |                         |
-          |                         |
-          | *                       | *
-          |                         |
-          v                         v
+   # Recipe Details Modal (Optional)
+Shows detailed information about a recipe when clicked.
 
-+----------------+          +----------------+
-|    Alert       |          |  Application   |
-+----------------+          +----------------+
-| alert_id (PK)  |          | application_id (PK) |
-| type           |          | candidate_id (FK)   |
-| message        |          | user_id (FK)        |
-| created_at     |          | stage               |
-| candidate_id (FK) |-------| updated_at          |
-+----------------+          +----------------+
-
-
-Entity and Relationship Descriptions
-
-1. User
-    Attributes:
-        user_id (Primary Key): Unique identifier for each user.
-        name: User's full name.
-        email: Contact email.
-        role: Defines user role (e.g., hiring manager, recruiter).
-        created_at: Timestamp of user creation.
-    Relationships:
-        A User can access multiple Candidates.
-        A User can manage multiple Applications (for tracking application progress).
-
-2. Candidate
-    Attributes:
-        candidate_id (Primary Key): Unique identifier for each candidate.
-        name: Full name of the candidate.
-        status: Current status in the hiring pipeline (e.g., applied, interviewed).
-        position_applied: Position candidate applied for.
-        last_updated: Last update timestamp for the candidate.
-    Relationships:
-        A Candidate is associated with a single Position.
-        A Candidate has multiple Application entries tracking the candidate’s stages.
-        A Candidate can have multiple Alerts associated with their application.
-
-3. Position
-    Attributes:
-        position_id (Primary Key): Unique identifier for each position.
-        title: Title of the job position (e.g., "Software Engineer").
-        department: Department the position belongs to.
-        status: Current status of the position (e.g., open, closed).
-        created_at: Timestamp of when the position was created.
-    Relationships:
-        A Position can have multiple Candidates applying to it.
-
-4. Alert
-    Attributes:
-        alert_id (Primary Key): Unique identifier for each alert.
-        type: Type of alert (e.g., "urgent staffing need").
-        message: Alert message content.
-        created_at: Timestamp for when the alert was created.
-        candidate_id (Foreign Key): Link to a specific Candidate.
-    Relationships:
-        Each Alert is associated with a single Candidate.
-
-5. Application
-    Attributes:
-        application_id (Primary Key): Unique identifier for each application stage entry.
-        candidate_id (Foreign Key): Links to a specific Candidate.
-        user_id (Foreign Key): Links to the User managing the application stage.
-        stage: The current stage in the hiring process (e.g., applied, interviewed, offer).
-        updated_at: Last update timestamp for this application stage.
-    Relationships:
-        Each Application stage entry links to one Candidate and is managed by one User.
+-----------------------------------------
+|               Recipe Title            |
+-----------------------------------------
+|                                       |
+|              [Recipe Image]           |
+|                                       |
+-----------------------------------------
+| Ingredients                           |
+| - Ingredient 1                        |
+| - Ingredient 2                        |
+| - ...                                 |
+|                                       |
+| Instructions                          |
+| 1. Step 1                             |
+| 2. Step 2                             |
+| - ...                                 |
+|                                       |
+| Nutritional Info (optional)           |
+| - Calories: ...                       |
+| - Fat: ...                             |
+-----------------------------------------
+|                [Save]   [Close]       |
+-----------------------------------------
 
 
-<Stretch Goal User Stories>
-Additional features that go beyond the MVP requirements:
+---
 
-1. Advanced Filtering and Search
-
-        User Story: As a hiring manager, I want to filter candidates by criteria such as status, position, and last activity, so I can focus on specific candidates.
-
-2. Multi-User Roles and Permissions
-
-        User Story: As an admin, I want to assign specific permissions to different user roles, so data access is controlled based on roles.
-
-3. Interview Scheduling Integration
-
-        User Story: As a hiring manager, I want to schedule interviews directly through the app, so I can streamline the candidate assessment process.
-
-4. Multi-Language Support
-
-        User Story: As a global hiring manager, I want to view the app in my preferred language, so I can navigate it easily.
-
-5. Data Export
-
-        User Story: As a hiring manager, I want to export candidate and position data to a spreadsheet, so I can analyze it offline.
+**Components**:
+    **Modal Structure**: A centered, pop-up modal overlaid on the page background.
+    **Content**:
+        **Recipe Title**: Displayed at the top.
+        **Recipe Image**: Large image below the title.
+        **Ingredients List**: A scrollable list of ingredients.
+        **Instructions**: A detailed list of cooking steps.
+        **Nutritional Information**: (Optional) displays nutritional details.
+    **Actions**: "Save" button if the recipe is not already saved, and "Close" button or icon to exit the modal.
 
 
-<Technical Stack>
-    Front End: React, with MUI or Tailwind for component styling.
-    
-    Back End: Express.js with Node.js.
-    
-    Data Visualization: D3.js or Chart.js (for charts and graphs).
-    
-    Authentication: OAuth2 (e.g., Google Login).
-    
-    Data Storage: Airtable for lightweight data handling.
-    
-    Deployment: Front-end on Vercel or Netlify, back-end on Heroku, AWS, or DigitalOcean.
+### Entity Relationship Diagram (ERD)
 
+For this project, we’ll use a lightweight data solution such as Airtable or local storage for saved recipes, keeping the structure simple:
 
-<Deployment Plan>
-    1. Frontend Deployment:(Until confirmed by Instructor)
-        Deploy on Vercel, Netlify, or another service, ensuring easy public access to the app.
-    2. Backend Deployment:(until confirmed by Instructor)
-        Deploy the Express API server on Heroku, AWS, or DigitalOcean.
-        Ensure environment variables are securely managed, particularly for sensitive API keys.
-    3. CI/CD Pipeline:
-        Set up automated deployments for testing and production environments.
+1. **User** (Optional for future versions)
+   - *Fields*: `user_id`, `username`, `email`, `password_hash`
+   
+2. **Recipe**
+   - *Fields*: `recipe_id`, `title`, `image_url`, `summary`, `ingredients`, `instructions`, `nutritional_info`
+   - *Relationships*: A user can save multiple recipes (one-to-many relationship)
 
+3. **User_Saved_Recipes** (If using user accounts)
+   - *Fields*: `user_id`, `recipe_id` (Composite Key)
 
-<README Structure>
-The README file for the front end should include:
+This ERD keeps the app’s data requirements minimal. Currently, the only data storage is for saved recipes. Adding a `User` table in future versions would enable a more personalized experience with account-specific saved recipes.
 
-    Screenshot/Logo: Visual preview of the app.
-    
-    App Description: Explanation of the app’s purpose, core functionality, and background information.
-    
-    Getting Started: Steps to deploy and access the app, with links to planning materials and the backend repo.
-    
-    Attributions: Credits for any third-party libraries, assets, or resources.
-    
-    Technologies Used: List of key technologies like React, Express, OAuth2, etc.
-    
-    Next Steps: Outline of potential future enhancements.
+---
+
+### Key Development Steps
+
+#### User Stories and MVP Functionality
+Develop features incrementally, focusing on one story at a time.
+
+**User Stories**:
+1. **As a user, I want to search recipes based on ingredients I have at home.**
+2. **As a user, I want to save recipes for easy access later.**
+3. **As a user, I want to easily navigate between search results and saved recipes.**
+4. **As a user, I want a responsive, visually cohesive UI with subtle animations.**
+
+#### Implementing Dynamic UI and Data Visualization
+- **Recipe Cards**: Hover effects and smooth transitions.
+- **Real-Time Data**: Ingredient-based recipe search updates in real time.
+- **Data Visualization**: Nutritional breakdowns displayed in chart format for selected recipes.
+
+---
+
+### Technical Details
+- **Third-Party API Integration**: Use AJAX with a backend proxy server.
+- **Data Storage**: Use Airtable for saved recipes.
+- **API Handling**: Implement error management and logging.
+
+---
+
+### README Documentation Requirements
+- **App Name and Logo**: “Realtime-App - Quick and Simple Recipes Based on What You Have”
+- **Screenshot**: Add a screenshot of the landing page.
+- **Getting Started**:
+  - Link to the deployed app, planning materials, and backend repository.
+- **Attributions**: List resources, libraries, and APIs.
+- **Technologies Used**: React, Express, CSS (with Flex/Grid), MUI.
+- **Next Steps**: Advanced filters, user accounts, and social sharing.
+
+---
+
+### Development Checklist
+
+#### Frontend Application
+- [x] **React Component Structure**: Modular components like `Search`, `RecipeCard`, and `SavedRecipes`.
+- [x] **Styling**: MUI with custom CSS for Flex/Grid layout.
+- [x] **AJAX Requests**: Use Axios or Fetch for AJAX requests.
+- [x] **State Management**: Use `useState` and `useEffect`.
+- [x] **Error Handling**: Display user-friendly error messages.
+
+#### UI/UX Requirements
+- [x] **Visual Theme**: Consistent color palette and layout.
+- [x] **Navigation**: Clear, accessible navigation bar.
+- [x] **Accessibility**: High contrast and alt text for images.
+- [x] **Responsive Layout**: Test on multiple screen sizes.
+- [x] **Animated UI**: Animate recipe cards, loading spinners, and save confirmations.
+
+#### Backend Application
+- [x] **Express Routes**: Build routes for API calls.
+- [x] **Environment Variables**: Use `dotenv` to secure API keys.
+- [x] **Testing**: Add error handling and logging.
+
+#### Deployment
+- [x] **Frontend**: Deploy on Vercel or Netlify.
+- [x] **Backend**: Deploy on Heroku or DigitalOcean.
+
+This plan should ensure a polished, user-friendly app with a smooth development flow, solid UX, and efficient deployment. Let me know if you need more specifics!
