@@ -223,9 +223,9 @@ Develop features incrementally, focusing on one story at a time.
 ---
 
 ### Technical Details
-- **Third-Party API Integration**: Use AJAX with a backend proxy server.
-- **Data Storage**: Use Airtable for saved recipes.
-- **API Handling**: Implement error management and logging.
+- **Third-Party API Integration**: Using AJAX with a backend proxy server.
+- **Data Storage**: Using Airtable for saved recipes.
+- **API Handling**: Implementing error management and logging.
 
 ---
 
