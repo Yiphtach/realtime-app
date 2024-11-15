@@ -141,48 +141,64 @@ For this project, we’ll use a lightweight data solution such as Airtable or lo
 3. **User_Saved_Recipes** (If using user accounts)
    - *Fields*: `user_id`, `recipe_id` (Composite Key)
 
-   # Entity Relationship Diagram (ERD)
+   # Entity Relationship Diagram (ERD) for Realtime-App
 
-User (Optional for Future Versions)
-----------------------------------------
-|  user_id       | Primary Key         |
-|  username      | String              |
-|  email         | String              |
-|  password_hash | String              |
-----------------------------------------
+## User (Optional for Future Versions)
+- **Description**: Stores user information for account-based features. 
+  - Used to associate saved recipes with individual users if account functionality is implemented.
 
-                   1
-                   |
-                   |
-                   |
-                   |
-                   N
-                   
-Recipe
-----------------------------------------
-|  recipe_id      | Primary Key         |
-|  title          | String              |
-|  image_url      | String              |
-|  summary        | Text                |
-|  ingredients    | Text Array          |
-|  instructions   | Text                |
-|  nutritional_info | JSON              |
-----------------------------------------
+----------------------------------------------
+|  Field Name       | Data Type     | Notes       |
+|-------------------|---------------|-------------|
+|  user_id          | UUID          | Primary Key, Unique identifier for each user |
+|  username         | String        | Unique, Required, Display name for the user   |
+|  email            | String        | Unique, Required, User’s email address        |
+|  password_hash    | String        | Required, Hashed password for user security   |
+|  created_at       | Timestamp     | Required, Auto-generated on user creation     |
+|  updated_at       | Timestamp     | Auto-generated on updates to user info        |
+----------------------------------------------
 
-                   M
-                   |
-                   |
-                   |
-                   |
-                   N
-                   
-User_Saved_Recipes
-----------------------------------------
-|  user_id        | Foreign Key         |
-|  recipe_id      | Foreign Key         |
-----------------------------------------
+## Recipe
+- **Description**: Stores information for each recipe, including basic details, ingredients, instructions, and optional nutritional data.
 
+----------------------------------------------
+|  Field Name       | Data Type     | Notes       |
+|-------------------|---------------|-------------|
+|  recipe_id        | UUID          | Primary Key, Unique identifier for each recipe |
+|  title            | String        | Required, Title of the recipe                   |
+|  image_url        | String        | URL to an image representing the recipe        |
+|  summary          | Text          | Brief description or summary of the recipe     |
+|  ingredients      | JSON Array    | List of ingredients required                   |
+|  instructions     | Text          | Step-by-step instructions for cooking          |
+|  nutritional_info | JSON          | Optional, Nutritional information (e.g., calories, fat, protein) |
+|  source_url       | String        | Optional, Original URL for reference or full details |
+|  created_at       | Timestamp     | Auto-generated on recipe creation              |
+----------------------------------------------
 
+## User_Saved_Recipes
+- **Description**: Junction table that links users with saved recipes, enabling many-to-many relationships between users and recipes.
+  - Allows users to save multiple recipes, and each recipe can be saved by multiple users.
+
+----------------------------------------------
+|  Field Name       | Data Type     | Notes       |
+|-------------------|---------------|-------------|
+|  user_id          | UUID          | Foreign Key, References User(user_id)         |
+|  recipe_id        | UUID          | Foreign Key, References Recipe(recipe_id)      |
+|  saved_at         | Timestamp     | Auto-generated timestamp of when the recipe was saved |
+----------------------------------------------
+
+## Relationships
+- **User ↔ Recipe (Many-to-Many)**: 
+  - Each user can save multiple recipes.
+  - Each recipe can be saved by multiple users.
+  - Relationship managed via `User_Saved_Recipes` junction table.
+
+## Example Usage
+- **User** `user_id` is linked to recipes through the `User_Saved_Recipes` table.
+- **Recipe** details are pulled using `recipe_id` and displayed with `title`, `image_url`, and `summary`.
+- **Ingredients** and **instructions** fields are rendered in recipe details for user guidance.
+
+---
 
 This ERD keeps the app’s data requirements minimal. Currently, the only data storage is for saved recipes. Adding a `User` table in future versions would enable a more personalized experience with account-specific saved recipes.
 
