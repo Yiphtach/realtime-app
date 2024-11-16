@@ -1,24 +1,33 @@
+// src/pages/Home.jsx
 import React, { useState } from 'react';
-import { searchRecipesByIngredient } from '../services/recipeService';
+import { Link } from 'react-router-dom';
+import { searchRecipesByIngredient, saveRecipe } from '../services/recipeService';
 
 function Home() {
   const [ingredient, setIngredient] = useState('');
   const [recipes, setRecipes] = useState([]);
-  const [error, setError] = useState('');
 
   const handleSearch = async () => {
     if (!ingredient.trim()) {
-      setError('Please enter an ingredient');
+      alert('Please enter an ingredient before searching.');
       return;
     }
-
-    setError('');
+    
     try {
       const data = await searchRecipesByIngredient(ingredient);
       setRecipes(data.meals || []);
-    } catch (err) {
-      setError('No recipes found or an error occurred');
-      setRecipes([]);
+    } catch (error) {
+      console.error('Error searching recipes:', error);
+    }
+  };
+
+  const handleSave = async (recipe) => {
+    try {
+      const { idMeal: id, strMeal: title, strMealThumb: image } = recipe;
+      const response = await saveRecipe({ id, title, image });
+      alert(response.message);
+    } catch (error) {
+      alert('Failed to save the recipe.');
     }
   };
 
@@ -33,13 +42,13 @@ function Home() {
       />
       <button onClick={handleSearch}>Search</button>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+      <div>
         {recipes.map((recipe) => (
-          <div key={recipe.idMeal} style={{ border: '1px solid #ccc', padding: '1rem' }}>
-            <img src={recipe.strMealThumb} alt={recipe.strMeal} style={{ width: '100%' }} />
-            <h3>{recipe.strMeal}</h3>
+          <div key={recipe.idMeal}>
+            <img src={recipe.strMealThumb} alt={recipe.strMeal} style={{ width: '100px', height: '100px' }} />
+            <p>{recipe.strMeal}</p>
+            <Link to={`/recipe/${recipe.idMeal}`}>View Details</Link>
+            <button onClick={() => handleSave(recipe)}>Save</button>
           </div>
         ))}
       </div>
