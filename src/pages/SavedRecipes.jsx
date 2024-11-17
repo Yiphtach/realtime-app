@@ -1,6 +1,7 @@
 // src/pages/SavedRecipes.jsx
 import React, { useEffect, useState } from 'react';
-import { getSavedRecipes } from '../services/recipeService';
+import { getSavedRecipes, removeSavedRecipe } from '../services/recipeService';
+import { Grid, Card, CardMedia, CardContent, Typography, Button } from '@mui/material';
 
 function SavedRecipes() {
   const [savedRecipes, setSavedRecipes] = useState([]);
@@ -18,18 +19,41 @@ function SavedRecipes() {
     fetchSavedRecipes();
   }, []);
 
+  const handleRemove = async (id) => {
+    try {
+      const response = await removeSavedRecipe(id);
+      alert(response.message);
+      setSavedRecipes(response.savedRecipes);
+    } catch (error) {
+      alert('Failed to remove the recipe.');
+    }
+  };
+
   return (
     <div>
-      <h1>Saved Recipes</h1>
-      {savedRecipes.length === 0 && <p>No saved recipes yet.</p>}
-      <div>
+      <Typography variant="h4" component="h1" gutterBottom>
+        Saved Recipes
+      </Typography>
+      <Grid container spacing={3}>
         {savedRecipes.map((recipe) => (
-          <div key={recipe.id}>
-            <img src={recipe.image} alt={recipe.title} style={{ width: '100px', height: '100px' }} />
-            <p>{recipe.title}</p>
-          </div>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={recipe.id}>
+            <Card>
+              <CardMedia
+                component="img"
+                height="140"
+                image={recipe.image}
+                alt={recipe.title}
+              />
+              <CardContent>
+                <Typography variant="h6">{recipe.title}</Typography>
+                <Button onClick={() => handleRemove(recipe.id)} color="secondary">
+                  Remove
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
         ))}
-      </div>
+      </Grid>
     </div>
   );
 }

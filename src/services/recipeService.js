@@ -6,7 +6,7 @@ export const searchRecipesByIngredient = async (ingredient) => {
     if (!ingredient || ingredient.trim() === '') {
       throw new Error('Ingredient parameter is required');
     }
-    
+
   try {
     const response = await axios.get(`${API_URL}/search`, { params: { ingredient } });
     return response.data;
@@ -45,3 +45,14 @@ export const getSavedRecipes = async () => {
     throw error;
   }
 };
+
+export const removeSavedRecipe = async (id) => {
+    try {
+      const response = await axios.delete(`${API_URL}/saved/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error removing recipe:', error);
+      throw error;
+    }
+  };
+  
