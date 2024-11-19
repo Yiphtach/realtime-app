@@ -1,8 +1,8 @@
 // src/pages/Home.jsx
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Typography, Grid, TextField, Button } from '@mui/material';
 import { searchRecipesByIngredient, saveRecipe } from '../services/recipeService';
-import { Grid, TextField, Button, Card, CardMedia, CardContent, Typography } from '@mui/material';
+import RecipeList from '../components/RecipeList';
 
 function Home() {
   const [ingredient, setIngredient] = useState('');
@@ -54,29 +54,13 @@ function Home() {
         </Grid>
       </Grid>
 
-      <Grid container spacing={3} style={{ marginTop: '20px' }}>
-        {recipes.map((recipe) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={recipe.idMeal}>
-            <Card>
-              <CardMedia
-                component="img"
-                height="140"
-                image={recipe.strMealThumb}
-                alt={recipe.strMeal}
-              />
-              <CardContent>
-                <Typography variant="h6">{recipe.strMeal}</Typography>
-                <Button component={Link} to={`/recipe/${recipe.idMeal}`} color="primary">
-                  View Details
-                </Button>
-                <Button onClick={() => handleSave(recipe)} color="secondary">
-                  Save
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+      <div style={{ marginTop: '20px' }}>
+        {recipes.length > 0 ? (
+          <RecipeList recipes={recipes} onSave={handleSave} />
+        ) : (
+          <Typography variant="subtitle1">No recipes found. Try searching for another ingredient.</Typography>
+        )}
+      </div>
     </div>
   );
 }

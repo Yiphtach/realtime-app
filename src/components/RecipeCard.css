@@ -1,0 +1,46 @@
+/* src/components/RecipeCard.css */
+.recipe-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 250px;
+    text-align: center;
+    margin: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .recipe-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .recipe-link {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .recipe-image {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .recipe-title {
+    font-size: 1.2rem;
+    margin: 10px 0;
+  }
+  
+  .save-button {
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .save-button:hover {
+    background-color: #155a9b;
+  }
+  
