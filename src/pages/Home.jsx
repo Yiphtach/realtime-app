@@ -45,6 +45,7 @@ function Home() {
             label="Enter an ingredient"
             value={ingredient}
             onChange={(e) => setIngredient(e.target.value)}
+
           />
         </Grid>
         <Grid item xs={4}>
