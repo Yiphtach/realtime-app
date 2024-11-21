@@ -34,7 +34,11 @@ function RecipeList({ recipes, onSave }) {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small" color="primary" onClick={() => onSave(recipe)}>
+              <Button
+                size="small"
+                color="primary"
+                onClick={() => onSave && onSave(recipe)} // Safely check for onSave
+              >
                 Save Recipe
               </Button>
             </CardActions>

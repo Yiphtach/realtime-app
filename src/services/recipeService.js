@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api/recipes';
+const API_URL = 'http://localhost:3000/api/recipes'; // Base API URL
 
 // Search Recipes by Ingredient
 export const searchRecipesByIngredient = async (ingredient) => {
@@ -19,6 +19,10 @@ export const searchRecipesByIngredient = async (ingredient) => {
 
 // Get Recipe by ID
 export const getRecipeById = async (id) => {
+  if (!id) {
+    throw new Error('Recipe ID is required');
+  }
+
   try {
     const response = await axios.get(`${API_URL}/${id}`);
     return response.data;
@@ -30,6 +34,10 @@ export const getRecipeById = async (id) => {
 
 // Save Recipe
 export const saveRecipe = async (recipe) => {
+  if (!recipe || !recipe.id || !recipe.title || !recipe.image) {
+    throw new Error('Recipe object with id, title, and image is required');
+  }
+
   try {
     const response = await axios.post(`${API_URL}/save`, recipe);
     return response.data;
@@ -52,11 +60,29 @@ export const getSavedRecipes = async () => {
 
 // Remove Saved Recipe
 export const removeSavedRecipe = async (id) => {
+  if (!id) {
+    throw new Error('Recipe ID is required to remove a saved recipe');
+  }
+
   try {
     const response = await axios.delete(`${API_URL}/saved/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error removing recipe:', error);
+    throw error;
+  }
+};
+
+export const deleteSavedRecipe = async (id) => {
+  if (!id) {
+    throw new Error('Recipe ID is required to delete a saved recipe');
+  }
+
+  try {
+    const response = await axios.delete(`${API_URL}/saved/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting saved recipe:', error);
     throw error;
   }
 };
