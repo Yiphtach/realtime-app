@@ -1,6 +1,7 @@
 // src/pages/Categories.jsx
 import React, { useState, useEffect } from 'react';
-import { getAllCategories } from '../services/recipeService';
+import { getAllCategories, saveRecipe } from '../services/recipeService';
+import RecipeList from '../components/RecipeList';
 
 function Categories() {
   const [categories, setCategories] = useState([]);
@@ -17,6 +18,16 @@ function Categories() {
 
     fetchCategories();
   }, []);
+
+  const handleSave = async (recipe) => {
+    try {
+      const { idMeal: id, strMeal: title, strMealThumb: image } = recipe;
+      const response = await saveRecipe({ id, title, image });
+      alert(response.message || 'Recipe saved successfully!');
+    } catch (error) {
+      alert('Failed to save the recipe.');
+    }
+  };
 
   return (
     <div>

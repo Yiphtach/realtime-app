@@ -1,6 +1,7 @@
 // src/pages/RandomMeal.jsx
 import React, { useState } from 'react';
-import { getRandomMeal } from '../services/recipeService';
+import { getRandomMeal, saveRecipe } from '../services/recipeService';
+import RecipeCard from '../components/RecipeCard';
 
 function RandomMeal() {
   const [meal, setMeal] = useState(null);
@@ -11,6 +12,16 @@ function RandomMeal() {
       setMeal(data.meals[0]);
     } catch (error) {
       console.error('Error fetching random meal:', error);
+    }
+  };
+
+  const handleSave = async (recipe) => {
+    try {
+      const { idMeal: id, strMeal: title, strMealThumb: image } = recipe;
+      const response = await saveRecipe({ id, title, image });
+      alert(response.message || 'Recipe saved successfully!');
+    } catch (error) {
+      alert('Failed to save the recipe.');
     }
   };
 

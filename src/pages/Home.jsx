@@ -1,12 +1,13 @@
 // src/pages/Home.jsx
 import React, { useState } from 'react';
-import { Typography, Grid, TextField, Button } from '@mui/material';
+import { Typography, Grid, TextField, Button, CircularProgress } from '@mui/material';
 import { searchRecipesByIngredient, saveRecipe } from '../services/recipeService';
 import RecipeList from '../components/RecipeList';
 
 function Home() {
   const [ingredient, setIngredient] = useState('');
   const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleSearch = async () => {
     if (!ingredient.trim()) {
@@ -14,11 +15,14 @@ function Home() {
       return;
     }
 
+    setLoading(true);
     try {
       const data = await searchRecipesByIngredient(ingredient);
       setRecipes(data.meals || []);
     } catch (error) {
       console.error('Error searching recipes:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -26,7 +30,7 @@ function Home() {
     try {
       const { idMeal: id, strMeal: title, strMealThumb: image } = recipe;
       const response = await saveRecipe({ id, title, image });
-      alert(response.message);
+      alert(response.message || 'Recipe saved successfully!');
     } catch (error) {
       alert('Failed to save the recipe.');
     }
@@ -45,7 +49,6 @@ function Home() {
             label="Enter an ingredient"
             value={ingredient}
             onChange={(e) => setIngredient(e.target.value)}
-
           />
         </Grid>
         <Grid item xs={4}>
@@ -56,10 +59,10 @@ function Home() {
       </Grid>
 
       <div style={{ marginTop: '20px' }}>
-        {recipes.length > 0 ? (
-          <RecipeList recipes={recipes} onSave={handleSave} />
+        {loading ? (
+          <CircularProgress />
         ) : (
-          <Typography variant="subtitle1">No recipes found. Try searching for another ingredient.</Typography>
+          <RecipeList recipes={recipes} onSave={handleSave} />
         )}
       </div>
     </div>

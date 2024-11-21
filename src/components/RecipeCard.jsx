@@ -1,7 +1,7 @@
 // src/components/RecipeCard.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './RecipeCard.css'; // Optional for custom styles
+import './RecipeCard.css';
 
 function RecipeCard({ recipe, onSave }) {
   return (
@@ -10,11 +10,9 @@ function RecipeCard({ recipe, onSave }) {
         <img src={recipe.strMealThumb} alt={recipe.strMeal} className="recipe-image" />
         <h3 className="recipe-title">{recipe.strMeal}</h3>
       </Link>
-      {onSave && (
-        <button className="save-button" onClick={() => onSave(recipe)}>
-          Save
-        </button>
-      )}
+      <button className="save-button" onClick={() => onSave(recipe)}>
+        Save
+      </button>
     </div>
   );
 }
