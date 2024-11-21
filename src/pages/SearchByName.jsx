@@ -1,5 +1,5 @@
 // src/pages/SearchByName.jsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { searchMealByName } from '../services/recipeService';
 
 function SearchByName() {

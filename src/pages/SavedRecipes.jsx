@@ -1,6 +1,6 @@
 // src/pages/SavedRecipes.jsx
-import React, { useEffect, useState } from 'react';
-import { getSavedRecipes, removeSavedRecipe } from '../services/recipeService';
+import { useEffect, useState } from 'react';
+import { getSavedRecipes, } from '../services/recipeService';
 import { Grid, Card, CardMedia, CardContent, Typography, Button } from '@mui/material';
 
 function SavedRecipes() {
@@ -19,16 +19,6 @@ function SavedRecipes() {
     fetchSavedRecipes();
   }, []);
 
-  const handleRemove = async (id) => {
-    try {
-      const response = await removeSavedRecipe(id);
-      alert(response.message);
-      setSavedRecipes(response.savedRecipes);
-    } catch (error) {
-      alert('Failed to remove the recipe.');
-    }
-  };
-
   return (
     <div>
       <Typography variant="h4" component="h1" gutterBottom>
@@ -46,7 +36,7 @@ function SavedRecipes() {
               />
               <CardContent>
                 <Typography variant="h6">{recipe.title}</Typography>
-                <Button onClick={() => handleRemove(recipe.id)} color="secondary">
+                <Button onClick={() => (recipe.id)} color="secondary">
                   Remove
                 </Button>
               </CardContent>

@@ -1,10 +1,19 @@
-// src/pages/Categories.jsx
-import React, { useState, useEffect } from 'react';
-import { getAllCategories, saveRecipe } from '../services/recipeService';
-import RecipeList from '../components/RecipeList';
+import { useState, useEffect } from 'react';
+import {
+  Typography,
+  Grid,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Button,
+  CircularProgress,
+} from '@mui/material';
+import { getAllCategories, } from '../services/recipeService';
 
 function Categories() {
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -13,38 +22,59 @@ function Categories() {
         setCategories(data.categories || []);
       } catch (error) {
         console.error('Error fetching categories:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchCategories();
   }, []);
 
-  const handleSave = async (recipe) => {
-    try {
-      const { idMeal: id, strMeal: title, strMealThumb: image } = recipe;
-      const response = await saveRecipe({ id, title, image });
-      alert(response.message || 'Recipe saved successfully!');
-    } catch (error) {
-      alert('Failed to save the recipe.');
-    }
-  };
-
   return (
-    <div>
-      <h1>Meal Categories</h1>
-      <div>
-        {categories.map((category) => (
-          <div key={category.idCategory} style={{ marginBottom: '1rem' }}>
-            <h2>{category.strCategory}</h2>
-            <img
-              src={category.strCategoryThumb}
-              alt={category.strCategory}
-              style={{ width: '150px' }}
-            />
-            <p>{category.strCategoryDescription}</p>
-          </div>
-        ))}
-      </div>
+    <div style={{ padding: '20px' }}>
+      <Typography variant="h4" component="h1" gutterBottom>
+        Meal Categories
+      </Typography>
+
+      {loading ? (
+        <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+          <CircularProgress />
+        </div>
+      ) : (
+        <Grid container spacing={3}>
+          {categories.map((category) => (
+            <Grid item xs={12} sm={6} md={4} key={category.idCategory}>
+              <Card>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image={category.strCategoryThumb}
+                  alt={category.strCategory}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h6" component="div">
+                    {category.strCategory}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    {category.strCategoryDescription.substring(0, 100)}...
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button
+                    size="small"
+                    color="primary"
+                    href={`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category.strCategory}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View Recipes
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </div>
   );
 }

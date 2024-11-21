@@ -1,43 +1,48 @@
-import React, { useState } from 'react';
-import { searchRecipesByIngredient, saveRecipe } from '../services/recipeService';
-import RecipeList from '../components/RecipeList';
+import {
+  Grid,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Typography,
+  Button,
+} from '@mui/material';
 
-function Home() {
-  const [recipes, setRecipes] = useState([]);
-
-  const handleSearch = async (ingredient) => {
-    try {
-      const data = await searchRecipesByIngredient(ingredient);
-      setRecipes(data.meals || []);
-    } catch (error) {
-      console.error('Error fetching recipes:', error);
-    }
-  };
-
-  const handleSave = async (recipe) => {
-    try {
-      const response = await saveRecipe({
-        id: recipe.idMeal,
-        title: recipe.strMeal,
-        image: recipe.strMealThumb,
-      });
-      alert(response.message);
-    } catch (error) {
-      console.error('Error saving recipe:', error);
-    }
-  };
+function RecipeList({ recipes, onSave }) {
+  if (!recipes.length) {
+    return (
+      <Typography variant="body1" color="textSecondary" align="center" sx={{ mt: 4 }}>
+        No recipes found. Try searching with a different ingredient.
+      </Typography>
+    );
+  }
 
   return (
-    <div>
-      <h1>Search Recipes by Ingredient</h1>
-      <input
-        type="text"
-        placeholder="Enter an ingredient"
-        onBlur={(e) => handleSearch(e.target.value)}
-      />
-      <RecipeList recipes={recipes} onSave={handleSave} />
-    </div>
+    <Grid container spacing={3}>
+      {recipes.map((recipe) => (
+        <Grid item xs={12} sm={6} md={4} key={recipe.idMeal}>
+          <Card className="recipe-card">
+            <CardMedia
+              component="img"
+              height="140"
+              image={recipe.strMealThumb}
+              alt={recipe.strMeal}
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h6" component="div">
+                {recipe.strMeal}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small" color="primary" onClick={() => onSave(recipe)}>
+                Save Recipe
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+      ))}
+    </Grid>
   );
 }
 
-export default Home;
+export default RecipeList;

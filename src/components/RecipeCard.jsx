@@ -1,7 +1,7 @@
 // src/components/RecipeCard.jsx
-import React from 'react';
 import { Link } from 'react-router-dom';
-import './RecipeCard.css';
+
+
 
 function RecipeCard({ recipe, onSave }) {
   return (
