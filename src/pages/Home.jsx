@@ -7,24 +7,35 @@ import {
   CircularProgress,
   Snackbar,
   Alert,
+  Box,
 } from '@mui/material';
-import { searchRecipesByIngredient, } from '../services/recipeService';
+import { useNavigate } from 'react-router-dom';
+import { searchRecipesByIngredient } from '../services/recipeService';
 import RecipeList from '../components/RecipeList';
 
 function Home() {
+  const [user, setUser] = useState(null);
   const [ingredient, setIngredient] = useState('');
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
+  const navigate = useNavigate();
 
-  // Load persisted state on mount
+  // Load user and persisted state on mount
   useEffect(() => {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+      navigate('/'); // Redirect to login if no user is logged in
+    } else {
+      setUser(currentUser);
+    }
+
     const persistedIngredient = localStorage.getItem('ingredient');
     const persistedRecipes = localStorage.getItem('recipes');
 
     if (persistedIngredient) setIngredient(persistedIngredient);
     if (persistedRecipes) setRecipes(JSON.parse(persistedRecipes));
-  }, []);
+  }, [navigate]);
 
   // Persist search state on updates
   useEffect(() => {
@@ -50,13 +61,32 @@ function Home() {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('currentUser'); // Clear user session
+    navigate('/'); // Redirect to login
+  };
+
   const handleCloseSnackbar = () => {
     setSnackbar({ open: false, message: '', severity: 'success' });
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <Typography variant="h4" component="h1" gutterBottom>
+    <Box sx={{ padding: '20px' }}>
+      {user && (
+        <Box sx={{ marginBottom: 4 }}>
+          <Typography variant="h4" gutterBottom>
+            Welcome, {user.name}!
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            Email: {user.email}
+          </Typography>
+          <Button variant="outlined" color="secondary" onClick={handleLogout}>
+            Logout
+          </Button>
+        </Box>
+      )}
+
+      <Typography variant="h5" component="h2" gutterBottom>
         Search Recipes by Ingredient
       </Typography>
       <Grid container spacing={2} alignItems="center">
@@ -83,7 +113,7 @@ function Home() {
         </Grid>
       </Grid>
 
-      <div style={{ marginTop: '20px', textAlign: 'center' }}>
+      <Box sx={{ marginTop: '20px', textAlign: 'center' }}>
         {loading ? (
           <CircularProgress />
         ) : recipes.length > 0 ? (
@@ -93,7 +123,7 @@ function Home() {
             No recipes found. Try searching with a different ingredient.
           </Typography>
         )}
-      </div>
+      </Box>
 
       {/* Snackbar for user feedback */}
       <Snackbar
@@ -106,7 +136,7 @@ function Home() {
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </div>
+    </Box>
   );
 }
 

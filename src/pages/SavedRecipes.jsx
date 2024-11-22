@@ -13,15 +13,16 @@ import {
 } from '@mui/material';
 
 function SavedRecipes() {
-  const [savedRecipes, setSavedRecipes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
+  const [savedRecipes, setSavedRecipes] = useState([]); // State to store saved recipes
+  const [loading, setLoading] = useState(true); // Loading state
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' }); // Snackbar for feedback
 
+  // Fetch saved recipes on component mount
   useEffect(() => {
     const fetchSavedRecipes = async () => {
       try {
         const data = await getSavedRecipes();
-        setSavedRecipes(data || []);
+        setSavedRecipes(data || []); // Ensure data is an array
       } catch (error) {
         console.error('Failed to fetch saved recipes:', error);
         setSnackbar({
@@ -37,10 +38,11 @@ function SavedRecipes() {
     fetchSavedRecipes();
   }, []);
 
+  // Handle removing a saved recipe
   const handleRemove = async (id) => {
     try {
       await deleteSavedRecipe(id);
-      setSavedRecipes((prevRecipes) => prevRecipes.filter((recipe) => recipe.id !== id));
+      setSavedRecipes((prevRecipes) => prevRecipes.filter((recipe) => recipe.idMeal !== id)); // Update UI after deletion
       setSnackbar({ open: true, message: 'Recipe removed successfully.', severity: 'success' });
     } catch (error) {
       console.error('Failed to remove recipe:', error);
@@ -52,6 +54,7 @@ function SavedRecipes() {
     }
   };
 
+  // Close snackbar
   const handleCloseSnackbar = () => {
     setSnackbar({ open: false, message: '', severity: 'success' });
   };
@@ -67,22 +70,22 @@ function SavedRecipes() {
       ) : savedRecipes.length > 0 ? (
         <Grid container spacing={3}>
           {savedRecipes.map((recipe) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={recipe.id}>
+            <Grid item xs={12} sm={6} md={4} lg={3} key={recipe.idMeal}>
               <Card>
                 <CardMedia
                   component="img"
                   height="140"
-                  image={recipe.image}
-                  alt={recipe.title}
+                  image={recipe.strMealThumb}
+                  alt={recipe.strMeal}
                 />
                 <CardContent>
                   <Typography variant="h6" gutterBottom>
-                    {recipe.title}
+                    {recipe.strMeal}
                   </Typography>
                   <Button
                     variant="outlined"
                     color="secondary"
-                    onClick={() => handleRemove(recipe.id)}
+                    onClick={() => handleRemove(recipe.idMeal)}
                   >
                     Remove
                   </Button>

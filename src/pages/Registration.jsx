@@ -19,35 +19,35 @@ function Registration() {
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!form.name || !form.email || !form.password) {
-      setSnackbar({ open: true, message: 'All fields are required.', severity: 'warning' });
-      return;
-    }
-
+  const handleRegister = async () => {
     try {
-      // Simulate API call for registration
-      console.log('User registered:', form);
-      setSnackbar({ open: true, message: 'Registration successful!', severity: 'success' });
-      navigate('/profile'); // Redirect to profile page
-    } catch {
-      setSnackbar({ open: true, message: 'Registration failed.', severity: 'error' });
+      const response = await fetch('http://localhost:3000/api/users/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+
+      if (response.ok) {
+        setSnackbar({ open: true, message: 'User registered successfully!', severity: 'success' });
+        navigate('/'); // Redirect to login
+      } else {
+        const error = await response.json();
+        setSnackbar({ open: true, message: error.message, severity: 'error' });
+      }
+    } catch (error) {
+      setSnackbar({ open: true, message: 'Something went wrong. Please try again.', severity: 'error' });
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleRegister();
   };
 
   return (
     <Container maxWidth="xs" style={{ marginTop: '50px' }}>
-      <Box
-        sx={{
-          boxShadow: 3,
-          padding: 3,
-          borderRadius: 2,
-          backgroundColor: 'white',
-        }}
-      >
-        <Typography variant="h4" component="h1" align="center" gutterBottom>
+      <Box sx={{ boxShadow: 3, padding: 3, borderRadius: 2, backgroundColor: 'white' }}>
+        <Typography variant="h4" align="center" gutterBottom>
           Register
         </Typography>
         <form onSubmit={handleSubmit}>
@@ -79,19 +79,11 @@ function Registration() {
             value={form.password}
             onChange={handleChange}
           />
-          <Button
-            fullWidth
-            type="submit"
-            variant="contained"
-            color="primary"
-            sx={{ marginTop: 2 }}
-          >
+          <Button fullWidth type="submit" variant="contained" color="primary" sx={{ marginTop: 2 }}>
             Register
           </Button>
         </form>
       </Box>
-
-      {/* Snackbar */}
       <Snackbar
         open={snackbar.open}
         autoHideDuration={3000}

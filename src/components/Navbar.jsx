@@ -8,6 +8,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    localStorage.removeItem('currentUser'); // Clear user session
     navigate('/'); // Redirect to login
   };
 
